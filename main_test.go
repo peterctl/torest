@@ -1,4 +1,4 @@
-package main_test
+package main
 
 import (
 	"encoding/json"
@@ -7,16 +7,15 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
-
-	"."
+	// "."
 )
 
-func app() (a *main.App) {
-	a = main.NewApp(main.NewMapRepo())
+func app() (a *App) {
+	a = NewApp(NewMapRepo())
 	return
 }
 
-func processRequest(a *main.App, req *http.Request) *httptest.ResponseRecorder {
+func processRequest(a *App, req *http.Request) *httptest.ResponseRecorder {
 	rr := httptest.NewRecorder()
 	a.Router.ServeHTTP(rr, req)
 	return rr
@@ -32,7 +31,7 @@ func TestTodoIndex(t *testing.T) {
 		t.Errorf("Expected code to be %d but got %d.", 200, res.Code)
 	}
 
-	var todos []main.ToDo
+	var todos []ToDo
 	json.NewDecoder(res.Body).Decode(&todos)
 	if len(todos) != 0 {
 		t.Errorf("Expected len(todos) to be %d but got %d.", 0, len(todos))
@@ -51,7 +50,7 @@ func TestAddTodoShouldSucceed(t *testing.T) {
 		t.Errorf("Expected code to be %d but got %d.", 200, res.Code)
 	}
 
-	var todo main.ToDo
+	var todo ToDo
 	json.NewDecoder(res.Body).Decode(&todo)
 	if todo.Name != "Test todo." {
 		t.Errorf("Expected name to be '%s' but got '%s'.", "Test todo.", todo.Name)
@@ -81,7 +80,7 @@ func TestAddTodoShouldFail(t *testing.T) {
 
 func TestSingleTodoShouldSucceed(t *testing.T) {
 	a := app()
-	a.Repo.Save(main.NewToDo("Test todo.", false))
+	a.Repo.Save(NewToDo("Test todo.", false))
 
 	todos, _ := a.Repo.All()
 	exp := todos[0]
@@ -98,7 +97,7 @@ func TestSingleTodoShouldSucceed(t *testing.T) {
 	}
 
 	// Test that the returned to-do is the correct one
-	var act main.ToDo
+	var act ToDo
 	json.NewDecoder(res.Body).Decode(&act)
 	if exp.Id != act.Id {
 		t.Errorf("Expected Id to be '%s' but got '%s'.", exp.Id, act.Id)
@@ -124,7 +123,7 @@ func TestSingleTodoShouldFail(t *testing.T) {
 
 func TestUpdateTodoShouldSucceed(t *testing.T) {
 	a := app()
-	a.Repo.Save(main.NewToDo("Test todo.", false))
+	a.Repo.Save(NewToDo("Test todo.", false))
 
 	todos, _ := a.Repo.All()
 	todo := todos[0]
@@ -166,7 +165,7 @@ func TestUpdateTodoShouldFailWith404(t *testing.T) {
 
 func TestUpdateTodoShouldFailWith400(t *testing.T) {
 	a := app()
-	a.Repo.Save(main.NewToDo("Test todo.", false))
+	a.Repo.Save(NewToDo("Test todo.", false))
 
 	todos, _ := a.Repo.All()
 	todo := todos[0]
@@ -186,7 +185,7 @@ func TestUpdateTodoShouldFailWith400(t *testing.T) {
 
 func TestDeleteTodoShouldSucceed(t *testing.T) {
 	a := app()
-	a.Repo.Save(main.NewToDo("Test todo.", false))
+	a.Repo.Save(NewToDo("Test todo.", false))
 
 	todos, _ := a.Repo.All()
 	exp := todos[0]
@@ -210,7 +209,7 @@ func TestDeleteTodoShouldSucceed(t *testing.T) {
 		t.Errorf("Expected count to be %d but got %d.", ac, ec)
 	}
 
-	var act main.ToDo
+	var act ToDo
 	json.NewDecoder(res.Body).Decode(&act)
 	if act.Id != exp.Id {
 		t.Errorf("Expected Id to be '%s' but got '%s'.", exp.Id, act.Id)
