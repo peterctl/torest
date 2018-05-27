@@ -25,7 +25,7 @@ func TestTodoIndex(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/api/todos", nil)
 	res := processRequest(app(), req)
 
-	t.Log(res.Body.String())
+	// t.Log(res.Body.String())
 
 	if res.Code != 200 {
 		t.Errorf("Expected code to be %d but got %d.", 200, res.Code)
@@ -44,7 +44,7 @@ func TestAddTodoShouldSucceed(t *testing.T) {
 		strings.NewReader(`{ "name": "Test todo." }`))
 	res := processRequest(a, req)
 
-	t.Log(res.Body.String())
+	// t.Log(res.Body.String())
 
 	if res.Code != 200 {
 		t.Errorf("Expected code to be %d but got %d.", 200, res.Code)
@@ -71,7 +71,7 @@ func TestAddTodoShouldFail(t *testing.T) {
 		strings.NewReader(""))
 	res := processRequest(a, req)
 
-	t.Log(res.Body.String())
+	// t.Log(res.Body.String())
 
 	if res.Code != 400 {
 		t.Errorf("Expected code to be %d but got %d.", 400, res.Code)
@@ -89,7 +89,7 @@ func TestSingleTodoShouldSucceed(t *testing.T) {
 	req, _ := http.NewRequest("GET", url, nil)
 	res := processRequest(a, req)
 
-	t.Log(res.Body.String())
+	// t.Log(res.Body.String())
 
 	// Test the response code
 	if res.Code != 200 {
@@ -114,7 +114,7 @@ func TestSingleTodoShouldFail(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/api/todos/_", nil)
 	res := processRequest(app(), req)
 
-	t.Log(res.Body.String())
+	// t.Log(res.Body.String())
 
 	if res.Code != 404 {
 		t.Errorf("Expected code to be %d but got %d", 404, res.Code)
@@ -133,7 +133,7 @@ func TestUpdateTodoShouldSucceed(t *testing.T) {
 		strings.NewReader(`{ "name": "New name", "completed": true }`))
 	res := processRequest(a, req)
 
-	t.Log(res.Body.String())
+	// t.Log(res.Body.String())
 
 	// Test the response code
 	if res.Code != 200 {
@@ -155,7 +155,7 @@ func TestUpdateTodoShouldFailWith404(t *testing.T) {
 		strings.NewReader(""))
 	res := processRequest(app(), req)
 
-	t.Log(res.Body.String())
+	// t.Log(res.Body.String())
 
 	// Test the response code
 	if res.Code != 404 {
@@ -175,7 +175,7 @@ func TestUpdateTodoShouldFailWith400(t *testing.T) {
 		strings.NewReader(""))
 	res := processRequest(a, req)
 
-	t.Log(res.Body.String())
+	// t.Log(res.Body.String())
 
 	// Test the response code
 	if res.Code != 400 {
@@ -196,7 +196,7 @@ func TestDeleteTodoShouldSucceed(t *testing.T) {
 		strings.NewReader(`{ "completed": true }`))
 	res := processRequest(a, req)
 
-	t.Log(res.Body.String())
+	// t.Log(res.Body.String())
 
 	if res.Code != 200 {
 		t.Errorf("Expected code to be %d but got %d.", 200, res.Code)
