@@ -1,0 +1,5 @@
+localhost:8080
+
+on startup "./build/api -addr 127.0.0.1:8000 -db ./database.sqlite" &
+root ./build/webui
+proxy /api 127.0.0.1:8000

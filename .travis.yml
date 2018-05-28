@@ -1,3 +1,9 @@
 language: go
 go:
   - "1.10"
+
+install:
+  - go get -v -t ./api/...
+
+script:
+  - make test-api
