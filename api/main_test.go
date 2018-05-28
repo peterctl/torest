@@ -11,7 +11,13 @@ import (
 )
 
 func app() (a *App) {
-	a = NewApp(NewMapRepo())
+	repo, err := NewDbRepo(":memory:")
+	if err != nil {
+		panic(err)
+	}
+
+	repo.Initialize()
+	a = NewApp(repo)
 	return
 }
 
