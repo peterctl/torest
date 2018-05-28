@@ -16,3 +16,6 @@
 
 # Output from make
 build/
+
+# Database
+database.sqlite
