@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 // This App struct wraps the repository and router to be
@@ -25,10 +26,11 @@ func (a *App) HandleFunc(
 }
 
 func (a *App) ListenAndServe(addr string) error {
-	return http.ListenAndServe(addr, a.Router)
+	handler := cors.AllowAll().Handler(a.Router)
+	return http.ListenAndServe(addr, handler)
 }
 
-func NewApp(repo ToDoRepo /*, addr string */) *App {
+func NewApp(repo ToDoRepo) *App {
 	app := &App{
 		Repo:   repo,
 		Router: mux.NewRouter(),
