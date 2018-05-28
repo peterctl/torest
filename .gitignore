@@ -13,3 +13,6 @@
 
 # Visual Studio Code files
 .vscode
+
+# Output from make
+build/
