@@ -1,0 +1,5 @@
+0.0.0.0:8080
+
+on startup "/srv/api -addr 127.0.0.1:8000 -db ./database.sqlite" &
+root /srv/webui
+proxy /api 127.0.0.1:8000
