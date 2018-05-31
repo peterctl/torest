@@ -7,4 +7,4 @@ Intel coding challenge: to-do API in Golang
 - [x] TravisCI integration
 - [x] Use SQLite3 database
 - [x] Web interface
-- [ ] Docker image
+- [x] Docker image
